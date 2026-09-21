@@ -306,13 +306,13 @@
         <div class="countdown-card">
             <h3>📝 Prov 1</h3>
             <div class="date-time">Onsdag 4 november 2026, kl. 16:45–19:00</div>
-            <div class="days-left">46 dagar kvar</div>
+            <div class="days-left"><span id="prov1-days-left-card">46 dagar</span> kvar</div>
             <div class="focus">Fokus: Epokindelning, källkritik, demokratisering m.m.</div>
         </div>
         <div class="countdown-card">
             <h3>📝 Prov 2</h3>
             <div class="date-time">Onsdag 9 december 2026, kl. 16:45–19:00</div>
-            <div class="days-left">81 dagar kvar</div>
+            <div class="days-left"><span id="prov2-days-left-card">81 dagar</span> kvar</div>
             <div class="focus">Fokus: Nationalism, kolonialism, världskrig m.m.</div>
         </div>
     </section>
@@ -326,8 +326,8 @@
             <div class="exam-header">
                 <div class="exam-icon">1</div>
                 <div class="exam-info">
-                    <div class="exam-title">Prov 1 – 4 november (46 dagar kvar)</div>
-                    <div class="exam-countdown">⏳ 46 dagar att förbereda sig</div>
+                    <div class="exam-title">Prov 1 – 4 november (<span id="prov1-days-left-title">46 dagar</span> kvar)</div>
+                    <div class="exam-countdown">⏳ <span id="prov1-days-left-countdown">46 dagar</span> att förbereda sig</div>
                 </div>
             </div>
             <div class="topics">
@@ -365,8 +365,8 @@
             <div class="exam-header">
                 <div class="exam-icon">2</div>
                 <div class="exam-info">
-                    <div class="exam-title">Prov 2 – 9 december (81 dagar kvar)</div>
-                    <div class="exam-countdown">⏳ 81 dagar att förbereda sig</div>
+                    <div class="exam-title">Prov 2 – 9 december (<span id="prov2-days-left-title">81 dagar</span> kvar)</div>
+                    <div class="exam-countdown">⏳ <span id="prov2-days-left-countdown">81 dagar</span> att förbereda sig</div>
                 </div>
             </div>
             <div class="topics">
@@ -417,5 +417,35 @@
             <li><strong>Testa dig själv:</strong> Ställ frågor till dig själv eller be en kompis fråga ut dig.</li>
         </ul>
     </section>
+
+    <script>
+        (function () {
+            function dagarKvar(datumIso) {
+                var idag = new Date();
+                idag.setHours(0, 0, 0, 0);
+                var mal = new Date(datumIso + 'T00:00:00');
+                return Math.round((mal - idag) / 86400000);
+            }
+
+            function dagarText(n) {
+                if (n <= 0) return 'Idag!';
+                if (n === 1) return '1 dag';
+                return n + ' dagar';
+            }
+
+            var prov = [
+                { datum: '2026-11-04', ids: ['prov1-days-left-card', 'prov1-days-left-title', 'prov1-days-left-countdown'] },
+                { datum: '2026-12-09', ids: ['prov2-days-left-card', 'prov2-days-left-title', 'prov2-days-left-countdown'] }
+            ];
+
+            prov.forEach(function (p) {
+                var text = dagarText(dagarKvar(p.datum));
+                p.ids.forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el) el.textContent = text;
+                });
+            });
+        })();
+    </script>
 </body>
 </html>
